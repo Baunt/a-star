@@ -14,7 +14,7 @@ def chunkify(fname,size=1024*1024):
         chunkEnd = f.tell()
     while True:
         chunkStart = chunkEnd
-        f.seek(size,1
+        f.seek(size,1)
         f.readline()
         chunkEnd = f.tell()
         yield chunkStart, chunkEnd - chunkStart

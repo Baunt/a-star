@@ -42,15 +42,17 @@ class Graph:
 
 
 # Read graph data
-def readGraph(line):
+def readGraph(filePath):
     n_vertices = 0
-    words = line.split(" ")
-    if (words[0] == "p"):
-        n_vertices = int(words[2])
+    for line in fileinput.input([filePath]):
+        words = line.split(" ")
+        if (words[0] == "p"):
+            n_vertices = int(words[2])
     graph = Graph(n_vertices)
-    words = line.split(" ")
-    if (words[0] == "a"):
-        graph.addVertex(int(words[1]) - 1, int(words[2]) - 1, float(words[3]))
+    for line in fileinput.input([filePath]):
+        words = line.split(" ")
+        if (words[0] == "a"):
+            graph.addVertex(int(words[1]) - 1, int(words[2]) - 1, float(words[3]))
     return graph
 
 

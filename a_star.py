@@ -88,61 +88,62 @@ def a_star_search(graph,coordinate,start,goal):
     :param goal:
     :return: The path and total length
     """
-    open_queue = PriorityQueue()
-    open_queue.put(start, 0)
-    closed = set()
-    came_from = {}
-    cost_so_far = {}
-    came_from[start] = None
-    cost_so_far[start] = 0
+    # open_queue = PriorityQueue()
+    # open_queue.put(start, 0)
+    # closed = set()
+    # came_from = {}
+    # cost_so_far = {}
+    # came_from[start] = None
+    # cost_so_far[start] = 0
 
-    while not open_queue.empty():
-        current = open_queue.get()
+    # while not open_queue.empty():
+    #     current = open_queue.get()
         
-        if current == goal:
-            break
-        
-        closed.add(current)
-        currentVertex = graph.getVertex(current)
-        i = 0
-        for next in currentVertex.neighbors:
-            new_cost = cost_so_far[current] + currentVertex.weights[i]
-            if next not in cost_so_far or new_cost < cost_so_far[next]:
-                cost_so_far[next] = new_cost
-                f = new_cost + h(next,goal, coordinate)
-                open_queue.put(next, f)
-                came_from[next] = current 
-                i = i + 1
-    return closed, cost_so_far
-    # openset = set()
-    # openset.add(start)
-    # closedset = set()
-    # cameFrom = {}
-    # cameFrom[start] = None
-    # g = {}
-    # g[start] = 0
-    # f = {}
-    # while openset:
-    #     current = min(openset)
     #     if current == goal:
     #         break
-    #     openset.remove(current)
-    #     closedset.add(current)        
+        
+    #     closed.add(current)
     #     currentVertex = graph.getVertex(current)
-    #     for i in range(0, len(currentVertex.neighbors)):
-    #         if currentVertex.neighbors[i] in closedset:
-    #             continue   
-    #         tentative_g_score = currentVertex.weights[i] + manhattan_distance()
-    #         if currentVertex.neighbors[i] not in openset:
-    #             openset.add(currentVertex.neighbors[i])
-    #         elif tentative_g_score >= currentVertex.weights[i]:
-    #             continue
-    #         cameFrom[currentVertex.neighbors[i]] = current
-    #         heuristic = h(currentVertex.neighbors[i],goal,coordinate)
-    #         g[currentVertex.neighbors[i]] = tentative_g_score
-    #         f_result = tentative_g_score + heuristic
-    #         f[currentVertex.neighbors[i]] = f_result
-
+    #     i = 0
+    #     for next in currentVertex.neighbors:
+    #         new_cost = cost_so_far[current] + currentVertex.weights[i]
+    #         if next not in cost_so_far or new_cost < cost_so_far[next]:
+    #             cost_so_far[next] = new_cost
+    #             f = new_cost + h(next,goal, coordinate)
+    #             open_queue.put(next, f)
+    #             came_from[next] = current 
+    #             i = i + 1
+    # return closed, cost_so_far
+    openset = set()
+    openset.add(start)
+    closedset = set()
+    cameFrom = {}
+    cameFrom[start] = None
+    g = {}
+    g[start] = 0
+    f = {}
+    f[start] = 0
+    while openset:
+        current = min(openset)
+        if current == goal:
+            break
+        openset.remove(current)
+        closedset.add(current)        
+        currentVertex = graph.getVertex(current)
+        for i in range(0, len(currentVertex.neighbors)):
+            if currentVertex.neighbors[i] in closedset:
+                continue   
+            tentative_g_score = currentVertex.weights[i] + g[current]
+            if currentVertex.neighbors[i] not in openset:
+                openset.add(currentVertex.neighbors[i])
+            elif tentative_g_score >= currentVertex.weights[i]:
+                continue
+            cameFrom[currentVertex.neighbors[i]] = current
+            heuristic = h(currentVertex.neighbors[i],goal,coordinate)
+            g[currentVertex.neighbors[i]] = tentative_g_score
+            f_result = tentative_g_score + heuristic
+            f[currentVertex.neighbors[i]] = f_result
+    return cameFrom, f
         # for neighbor in currentVertex.neighbors:            
         #     if neighbor in closedset:
         #         continue       

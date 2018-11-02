@@ -1,7 +1,6 @@
-from graph import readGraph
-from a_star import a_star_search
+from a_star import *
+from read_data import ReadData
 
-graphs = readGraph("data/USA-road-d.NY.gr")
-print("FOS")
-a_star_search(graphs,0,5)
-
+graph = ReadData()
+result = a_star_search(graph.getGraphs(),graph.getCoordinates(),169781,79088)
+print(result)

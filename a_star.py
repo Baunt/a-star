@@ -2,8 +2,6 @@
 from graph import *
 from read_data import ReadData
 import numpy as np
-import heapq
-from scipy.spatial import distance
 
 # Read graph data and coordinates data (to be implemented)
 
@@ -17,38 +15,24 @@ from scipy.spatial import distance
 #"----------------------------------------------"
 
 # Priority queue definition
-# class PriorityQueue:
-#     def __init__(self, f):
-#         self.elements = []
-#         self.f = f
-
-#     def empty(self):
-#         return len(self.elements) == 0
-
-#     def included(self, item):
-#         return item in self.elements
-
-#     def put(self, item):
-#         self.elements.append(item)
-
-#     def get(self):
-#         e_min = min(self.elements, key=lambda e:self. [e])
-#         self.elements.pop(self.elements.index(e_min))
-#         return e_min
-
 class PriorityQueue:
-    def __init__(self):
+    def __init__(self, f):
         self.elements = []
-    
+        self.f = f
+
     def empty(self):
         return len(self.elements) == 0
-    
-    def put(self, item, priority):
-        heapq.heappush(self.elements, (priority, item))
-    
-    def get(self):
-        return heapq.heappop(self.elements)[1]
 
+    def included(self, item):
+        return item in self.elements
+
+    def put(self, item):
+        self.elements.append(item)
+
+    def get(self):
+        e_min = min(self.elements, key=lambda e:self.f[e])
+        self.elements.pop(self.elements.index(e_min))
+        return e_min
 
 def angles2centimeters(la, lo):
     """
@@ -92,8 +76,6 @@ def a_star_search(graph,coordinate,start,goal):
     openset[start] = 0
     closedset = {}
     closedset[start] = 0
-    # cameFrom = {}
-    # cameFrom[start] = None
     g = {}
     g[start] = 0
     f = {}
